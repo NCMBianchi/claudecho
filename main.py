@@ -6,6 +6,7 @@ import typer
 
 import openai
 #handles everything related to ChatGPT functionality
+#requires version<1.0.0
 
 from dotenv import load_dotenv
 #allows for the openAI API key to be accessible
