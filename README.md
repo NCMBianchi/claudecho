@@ -4,7 +4,7 @@
 
 A proof-of-concept project on how to build an <b>interactive CLI for chatGPT</b> queries through their own API, based on a video by Warp: https://www.youtube.com/watch?v=7p7kJvckrFE
 
-Few changes were made to the original code to allow for correct formatting, subsequent questions without the code breaking up and some minorly customised output lines.
+Few changes were made to the original code to allow for correct formatting, subsequent questions without the code breaking up and some minorly customised output lines. <b> Requires python package ```openai<1.0.0```.</b>
 
 ## INSTRUCTIONS
 ### Use instructions
