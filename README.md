@@ -1,6 +1,6 @@
 # 'CLAUDEcho' interactive CLI
 
-![Screenshot 2024-03-28 alle 09 52 03-EDIT](https://github.com/NCMBianchi/chatGPTclone/assets/111352723/2e92e2f1-7307-4707-bc89-3646018e4af1)
+![image-1](https://github.com/user-attachments/assets/cb0e98e4-4734-4721-bfab-9db1c4a0e6fb)
 
 This <b>interactive CLI for Claude</b> is based on another proof-of-concept project to make queries to Claude.
 
@@ -32,12 +32,12 @@ These are all the commands that can be used in the tool, and they all required v
 
 Moreover, the `claudecho --help` command allows to display this very table within the tool.
 
-![Screenshot 2024-03-28 alle 10 17 28](https://github.com/NCMBianchi/chatGPTclone/assets/111352723/0ad58198-98fb-45ae-a54b-8ca3e88845c0)
+<img width="807" alt="Screenshot 2024-11-03 alle 11 46 12" src="https://github.com/user-attachments/assets/8a261c39-3035-4786-b051-83e8914454e4">
 
 ### API key instructions
 To use this, you have to first get your own API key from [Anthropic's console](https://console.anthropic.com).
 
-![Screenshot 2024-03-28 alle 10 09 25-EDIT](https://github.com/NCMBianchi/chatGPTclone/assets/111352723/5c57a21a-7e4b-4e47-8374-5c3393840abf)
+<img width="1140" alt="Screenshot 2024-11-03 alle 11 42 29-EDIT" src="https://github.com/user-attachments/assets/da23a8b0-88be-4b73-b9ac-8240f6de8dd5">
 
 Then create a <bi>.env</bi> file with this line: `ANTHROPIC_API_KEY="____"` filling it with your own API key. Place it in the cloned directory.
 
