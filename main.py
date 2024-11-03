@@ -1,11 +1,10 @@
-######################################
-## CHATGPT clone, © Niccolò Bianchi ##
-######################################
+##################################
+## CLAUDECHO, © Niccolò Bianchi ##
+##################################
 
-## This CLI is based on a youtube video guide, and implements a
-## simple client-server with OpenAI's API for chatgpt. This version
-## only works with API version <1.0.0 and it's NOT mean for
-## commercial use.
+## This CLI for a simple client-server with Anthropic's API for 
+## Claude is the fork of another similar tool I made for OpenAI's
+## API for chatgpt.
 
 
 # handles the key securely
@@ -14,8 +13,8 @@ import os
 # handles the command line, things related to the command line and pass commands
 import typer
 
-# handles everything related to ChatGPT functionality
-import openai
+# handles everything related to Claude's API functionality
+from anthropic import Anthropic, BadRequestError
 
 # allows for the openAI API key to be accessible
 from dotenv import load_dotenv
@@ -25,10 +24,10 @@ from typing import Optional
 
 # load API key
 load_dotenv()
-api_key = os.getenv("OPENAI_KEY")
+api_key = os.getenv("ANTHROPIC_API_KEY")
 
 # initialize OpenAI client
-client = openai.OpenAI(api_key=api_key)
+client = Anthropic(api_key=api_key)
 app = typer.Typer(add_completion=False)
 
 # actual tool functionality
@@ -40,52 +39,63 @@ def interactive_chat(
         150, "--maxtokens", "-M", help="Sets the maximum response length."
     ),
     model: str = typer.Option(
-        "gpt-4o-mini", "--model", "-m", help="Chooses a model."
+        "claude-3-sonnet-20240229", "--model", "-m", help="Chooses a model."
     ),
 ):
     """
-    Interactive CLI tool to chat with ChatGPT.
+    Interactive CLI tool to chat with Anthropic's Claude.
 
     Models available:\n
-      - gpt-4o          Most advanced model. Costs $2.50 per 1M input tokens, $10.00 per 1M output tokens.\n
-      - gpt-4o-mini     Faster and optimised. Costs $0.15 per 1M input tokens, $0.60 per 1M output tokens.\n
-      - gpt-o1-preview  For complex tasks. Costs $15.00 per 1M input tokens, $60.00 per 1M output tokens.\n
-      - gpt-o1-mini     Fast reasoning model. Costs $3.00 per 1M input tokens, $12.00 per 1M output tokens.
+      - claude-3-opus-20240229      Most capable model for complex tasks.\n
+      - claude-3-sonnet-20240229    Balanced model for most use cases.\n
+      - claude-3-haiku-20240307     Fastest model for shorter tasks.
     """
     typer.echo(
-        f"Starting interactive chat with ChatGPT version '{model}'. Type '/bye' to end the session.\n"
+        f"Starting interactive chat with Claude version '{model}'. Type '/bye' to end the session.\n"
     )
     if text:
         print(f'You: {text}')
 
     messages = []
+    try:
+        while True:
+            if text and not messages:  # only uses 'text' for the first message
+                prompt = text
+            else:
+                prompt = input("You: ")
+                
+            if prompt.lower() == "/bye":
+                typer.echo("Claude: Goodbye!")
+                break
 
-    i = 1
-    while True:
-        if i == 1 and text:
-            prompt = text
-        else:
-            prompt = input("You: ")
-        i += 1
-
-        if prompt.lower() == "/bye":
-            typer.echo("ChatGPT: Goodbye!")
-            break
-
-        messages.append({"role": "user", "content": prompt})
-
-        # use the client to create chat completions
-        response = client.chat.completions.create(
-            model=model,
-            messages=messages,
-            max_tokens=max_tokens,
-            temperature=temperature
-        )
-
-        # access response content (it avoids empty lines, but paragraphs are no longer possible)
-        cleaned_response = response.choices[0].message.content.replace("\n", " ")
-        typer.echo(f'ChatGPT: {cleaned_response}')
-        messages.append({"role": "assistant", "content": cleaned_response})
+            messages.append({"role": "user", "content": prompt})
+            
+            try:
+                # uses the client to create chat completions
+                response = client.messages.create(
+                    model=model,
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature
+                )
+                
+                # access response content (it avoids empty lines, but paragraphs are no longer possible)
+                cleaned_response = response.content[0].text.replace("\n", " ")
+                typer.echo(f'Claude: {cleaned_response}')
+                messages.append({"role": "assistant", "content": cleaned_response})
+                
+            except BadRequestError as e:
+                if "credit balance is too low" in str(e):
+                    typer.echo("Error: Insufficient credits in your Anthropic account. Please add more credits at https://console.anthropic.com/")
+                    break
+                else:
+                    # re-raised if it's a different type of BadRequestError
+                    raise
+                    
+    except KeyboardInterrupt:
+        typer.echo("\nChat session terminated by user.")
+    except Exception as e:
+        typer.echo(f"\nAn error occurred: {str(e)}")
 
 if __name__ == "__main__":
     app()

@@ -1,14 +1,13 @@
 #!/bin/bash
 
 
-######################################
-## CHATGPT clone, © Niccolò Bianchi ##
-######################################
+##################################
+## CLAUDEcho, © Niccolò Bianchi ##
+##################################
 
-## This CLI is based on a youtube video guide, and implements a
-## simple client-server with OpenAI's API for chatgpt. This version
-## only works with API version <1.0.0 and it's NOT mean for
-## commercial use./bye
+## This CLI for a simple client-server with Anthropic's API for 
+## Claude is the fork of another similar tool I made for OpenAI's
+## API for chatgpt.
 
 
 # check for required dependencies
@@ -23,8 +22,8 @@ done
 
 # specify Python version and virtual environment name
 PYTHON_VERSION="3.12.0"
-VENV_NAME="chatgptclone"
-REQUIREMENTS="typer openai python-dotenv"
+VENV_NAME="claudecho"
+REQUIREMENTS="typer anthropic python-dotenv"
 
 # check if the specified Python version is installed in pyenv
 if ! pyenv versions | grep -q "$PYTHON_VERSION"; then
