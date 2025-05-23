@@ -50,7 +50,12 @@ for package in $REQUIREMENTS; do
     fi
 done
 
-# run the Python script
-"$PYTHON_PATH" main.py "$@"
+# Check if user is requesting model list
+if [[ "$#" -ge 2 && ("$1" == "-m" || "$1" == "--model") && "$2" == "--help" ]]; then
+    "$PYTHON_PATH" main.py list-models
+else
+    # run the interactive chat command explicitly
+    "$PYTHON_PATH" main.py interactive-chat "$@"
+fi
 
 

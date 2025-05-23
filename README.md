@@ -6,6 +6,8 @@ This <b>interactive CLI for Claude</b> is based on another proof-of-concept proj
 
 More information on Anthropic's API on: [https://docs.anthropic.com/en/api/getting-started](https://docs.anthropic.com/en/api/getting-started)
 
+> **NEW**: Support for Claude 4 models (Opus and Sonnet), web search capability, and thinking mode!
+
 
 ## INSTRUCTIONS
 ### Set-up instructions (MacOS/Linux)
@@ -26,11 +28,15 @@ Queries can be performed with the `claudecho -t "_________"` (`main.sh -t "_____
 | -t            | --text       | Starts with an initial message text.           |                 |
 | -T            | --temp       | Sets the temperature (randomness) from 0 to 1. | 0.7             |
 | -M            | --maxtokens  | Sets the maximum response length.              | 150             |
-| -m            | --model      | Chooses a model.                               | claude-3-sonnet |
+| -m            | --model      | Chooses a model.                               | claude 4 sonnet |
+| -w            | --websearch  | Enables web search capability.                 | False           |
+| -k            | --thinking   | Enables thinking mode.                         | False           |
 
 These are all the commands that can be used in the tool, and they all required values to be inputted between quotation marks.
 
 Moreover, the `claudecho --help` command allows to display this very table within the tool.
+
+You can list all available Claude models with the `claudecho -m --help` or `claudecho --model --help` command.
 
 ![Screenshot 2024-03-28 alle 10 17 28](https://github.com/NCMBianchi/chatGPTclone/assets/111352723/0ad58198-98fb-45ae-a54b-8ca3e88845c0)
 
@@ -43,6 +49,14 @@ Then create a <bi>.env</bi> file with this line: `ANTHROPIC_API_KEY="____"` fill
 
 ### venv instructions (MacOS/Linux)
 If you want to remove the virtual environment created by this tool, just use the `pyenv virtualenv-delete claudecho` command in your terminal: this will delete the virtual environment and all the packages within it. If you want to also remove Python package ```pyenv``` entirely, use the `pip uninstall pyenv` command, which requires a Y/n confirmation. First check no other functionality in your device is using them: you can check it with commands `pyenv versions` and `pyenv virtualenvs`.
+
+## New Features (2025/05/23)
+
+- **Claude 4 Models**: Support for Anthropic's most advanced Claude 4 models (claude-opus-4-20250514, claude-sonnet-4-20250514)
+- **Web Search**: Enable Claude to search the web for up-to-date information
+- **Thinking Mode**: See Claude's step-by-step reasoning process
+
+Check the [CHANGELOG.md](CHANGELOG.md) file for updates on when these features become available.
 
 
 ##
